@@ -1,19 +1,13 @@
 import { Children, cloneElement, ReactElement, useState } from "react";
-import Food from "./Food";
+import { BreakfastProps } from "../../Types";
+import Food from "../Food";
 
-type breakfastProps = {
-  isOverwrite: boolean;
-  overwrite: string;
-};
-
-const Breakfast: React.FC<breakfastProps> = ({
+const Breakfast: React.FC<BreakfastProps> = ({
   children,
   isOverwrite,
   overwrite,
 }) => {
   const [isCloned, setisCloned] = useState(false);
-
-  console.log({ overwrite });
 
   const handleClick = () => {
     setisCloned(!isCloned);
@@ -33,20 +27,19 @@ const Breakfast: React.FC<breakfastProps> = ({
   });
 
   const childrenToRender = () => {
-    return <h3>{isCloned ? clonedChildren : children}</h3>;
+    if (isOverwrite) {
+      return <Food foodName={overwrite} locked={false} />;
+    } else {
+      return isCloned ? clonedChildren : children;
+    }
   };
 
   return (
-    <div>
-      <h2>Oooh look what I'm having for breakfast...</h2>
+    <div className="breakfast">
       <button onClick={handleClick}>
         {isCloned ? "Izzit Coffee...?" : "Coffee Izzit..?"}
       </button>
-      {isOverwrite ? (
-        <Food foodName={overwrite} locked={false} />
-      ) : (
-        childrenToRender()
-      )}
+      {childrenToRender()}
     </div>
   );
 };
