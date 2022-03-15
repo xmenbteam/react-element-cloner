@@ -9,16 +9,22 @@ type FoodType = {
 };
 
 const App = () => {
-  const [foods, setFoods] = useState<FoodType[]>([
+  const [foods] = useState<FoodType[]>([
     { name: "Apple", locked: true },
-    { name: "Big Mac", locked: false },
-    { name: "Cheese", locked: false },
-    { name: "Primula", locked: true },
+    { name: "Yoghurt", locked: false },
+    { name: "Granola", locked: false },
+    { name: "Avocado", locked: true },
   ]);
+  const [isOverwrite, setIsOverwrite] = useState(false);
+  const [overwrite] = useState("Pizza");
+
   return (
     <div className="App">
       <h1>Doug's Foodness</h1>
-      <Breakfast setFoods={setFoods}>
+      <button onClick={() => setIsOverwrite(!isOverwrite)}>
+        {isOverwrite ? "Health food!" : "Screw it m8, pizza"}
+      </button>
+      <Breakfast isOverwrite={isOverwrite} overwrite={overwrite}>
         {foods.map(({ name, locked }, i) => {
           return <Food key={i} foodName={name} locked={locked} />;
         })}
